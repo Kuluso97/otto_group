@@ -13,13 +13,16 @@ def onehot_encoder(y_train):
 
 class Model(BaseClassifier):
 
-	def __init__(self):
+	def __init__(self, epochs=60, batch_size=64, validation_split=0.1):
 		clf = Sequential()
 		super().__init__(clf)
 		self.name = 'Neural Network'
 		self.optimizer = SGD(lr=0.001, decay=1e-7, momentum=.9)
+		self.epochs = epochs
+		self.batch_size = batch_size
+		self.validation_split = validation_split
 
-	def fit(self, X_train, y_train, epochs=60, batch_size=64, validation_split=0.1):
+	def fit(self, X_train, y_train):
 		y_train_encoded = self.le.fit_transform(y_train)
 		y_train_onehot = to_categorical(y_train_encoded)
 		self.clf.add(Dense(
@@ -35,8 +38,8 @@ class Model(BaseClassifier):
 				optimizer=self.optimizer,
 				loss='categorical_crossentropy')
 
-		self.clf.fit(X_train, y_train_onehot, batch_size=batch_size, epochs=epochs,
-						verbose=1, validation_split=validation_split)
+		self.clf.fit(X_train, y_train_onehot, batch_size=self.batch_size, epochs=self.epochs,
+						verbose=1, validation_split=self.validation_split)
 
 	def predict_class(self, X_test, label=False):
 		probs = self.predict_proba(X_test)
@@ -53,8 +56,8 @@ class Model(BaseClassifier):
 
 		return probas
 
-	def save_model(self):
-		self.clf.save('./models/nn.h5')
+	def save_model(self, path='./models/nn.h5'):
+		self.clf.save(path)
 
 
 def main():
@@ -70,6 +73,7 @@ def main():
 	print(pred)
 	score = nn.score(X_test, y_test)
 	print("The log loss of Neural Network model is: %.5f"  %score)
+	nn.save_model()
 
 if __name__ == '__main__':
 	main()
