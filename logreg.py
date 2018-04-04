@@ -1,20 +1,29 @@
-import numpy as np
-import pandas as pd 
-from util import load_data, test_model
+from util import load_data, BaseClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import log_loss
 from sklearn.linear_model import LogisticRegression
 
 DATA_PATH = './data/train.csv'
 
-clf = LogisticRegression()
-loss = test_model(path=DATA_PATH, clf=clf)
-print('Logistic Regression LogLoss {score}'.format(score=loss))
+class LogReg(BaseClassifier):
+
+	def __init__(self, clf):
+		super().__init__(clf)
+		self.name = 'Logreg'
+
+def main():
+	DATA_PATH = './data/train.csv'
+	X, y = load_data(DATA_PATH)
+	X_train, X_test, y_train, y_test = train_test_split(
+								X, y, test_size=0.1, random_state=1)
+
+	clf = LogisticRegression()
+	logreg = LogReg(clf)
+	logreg.fit(X_train, y_train)
+	pred = logreg.predict_class(X_test, label=True)
+	print(pred)
+	score = logreg.score(X_test, y_test)
+	print("The log loss of Logistic Regression model is: %.5f"  %score)
 
 
-
-
-
-
-
-
+if __name__ == '__main__':
+	main()
