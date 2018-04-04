@@ -45,7 +45,6 @@ def main():
 
 	loss = log_loss(y_pred=y_test_pred, y_true=y_test)
 	print(loss)
-
 	model.save('./models/nn.h5')
 
 if __name__ == '__main__':

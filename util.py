@@ -1,16 +1,21 @@
 import pandas as pd 
 import numpy as np
-from keras.utils import to_categorical
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 def load_data(path):
 	df = pd.read_csv(path)
-	return df.iloc[:, 1:-1], df['target']
+	if 'target' in df.columns:
+		return df.iloc[:, 1:-1], df['target']
+	else:
+		return df.iloc[:, 1:]
 
-def onehot_encoder(y_train):
-	le = LabelEncoder()
-	y_train_encoded = le.fit_transform(y_train)
-	return to_categorical(y_train_encoded)
+def write_result(path, test_pred):
+	df = pd.read_csv(path)
+	ids = pd.DataFrame(df["id"].values,columns= ["id"])
+	array = pd.DataFrame(test_pred,
+		columns=["Class_1","Class_2","Class_3","Class_4","Class_5","Class_6","Class_7","Class_8","Class_9"])
+	complete_array = pd.concat([ids,array],axis=1)
+	complete_array.to_csv("submission.csv",sep=",",index=None)
 
 # def feature_ranking(X, y):
 
