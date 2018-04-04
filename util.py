@@ -1,6 +1,8 @@
 import pandas as pd 
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.metrics import log_loss
+from sklearn.model_selection import train_test_split
 
 def load_data(path):
 	df = pd.read_csv(path)
@@ -16,6 +18,17 @@ def write_result(path, test_pred):
 		columns=["Class_1","Class_2","Class_3","Class_4","Class_5","Class_6","Class_7","Class_8","Class_9"])
 	complete_array = pd.concat([ids,array],axis=1)
 	complete_array.to_csv("submission.csv",sep=",",index=None)
+
+def test_model(path, clf):
+	X, y = load_data(path)
+
+	X_train, X_test, y_train, y_test = train_test_split(
+				X, y, test_size=0.1, random_state=1)
+
+	clf.fit(X_train, y_train)
+	return log_loss(y_pred=clf.predict_proba(X_test), y_true=y_test, normalize=True)
+
+
 
 # def feature_ranking(X, y):
 
