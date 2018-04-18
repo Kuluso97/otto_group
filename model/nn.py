@@ -4,9 +4,8 @@ from keras.optimizers import SGD
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.utils import to_categorical
-from sklearn.model_selection import train_test_split
 
-class Model(BaseClassifier):
+class NN(BaseClassifier):
 
 	def __init__(self, epochs=60, batch_size=64, validation_split=0.1):
 		clf = Sequential()
@@ -53,25 +52,6 @@ class Model(BaseClassifier):
 
 	def save_model(self, path='../trained_models/nn.h5'):
 		self.clf.save(path)
-
-
-def main():
-	DATA_PATH = '../data/train.csv'
-	X, y = load_data(DATA_PATH)
-
-	X_train, X_test, y_train, y_test = train_test_split(
-					X, y, test_size=0.1, random_state=1)
-
-	nn = Model()
-	nn.fit(X_train, y_train)
-	pred = nn.predict_class(X_test, label=True)
-	print(pred)
-	score = nn.score(X_test, y_test)
-	print("The log loss of Neural Network model is: %.5f"  %score)
-	nn.save_model()
-
-if __name__ == '__main__':
-	main()
 
 
 

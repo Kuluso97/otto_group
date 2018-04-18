@@ -1,7 +1,6 @@
 import xgboost as xgb
 import numpy as np
 from util import load_data, BaseClassifier
-from sklearn.model_selection import train_test_split
 
 class GradientBoosting(BaseClassifier):
 
@@ -47,23 +46,4 @@ class GradientBoosting(BaseClassifier):
 			print("No model trained")
 		else:
 			self.clf.save_model(path)
-
-
-def main():
-	DATA_PATH = '../data/train.csv'
-	X, y = load_data(DATA_PATH)
-	X_train, X_test, y_train, y_test = train_test_split(
-								X, y, test_size=0.1, random_state=1)
-
-	gb = GradientBoosting()
-	gb.fit(X_train, y_train)
-	pred = gb.predict_class(X_test, label=True)
-	print(pred)
-	score = gb.score(X_test, y_test)
-	print("The log loss of Gradient Boosting model is: %.5f"  %score)
-	gb.save_model()
-
-
-
-if __name__ == '__main__':
-	main()
+			
