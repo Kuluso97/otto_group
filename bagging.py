@@ -1,9 +1,6 @@
 import numpy as np 
 import pandas as pd
-from model.gdbt import GradientBoosting
-from model.logreg import LogReg
 from model.nn import NN 
-from model.random_forest import RandomForest
 from util import load_data
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss
@@ -53,7 +50,7 @@ def main():
 	X_train, X_test, y_train, y_test = train_test_split(
 								X, y, test_size=0.1, random_state=1)
 
-	models = [NN(), NN(), NN(), NN(), NN()]
+	models = [NN()]
 	clf = BaggingClassifier(base_learners=models)
 	clf.fit(X_train, y_train)
 	probs = clf.predict_proba(X_test, normalize=True)

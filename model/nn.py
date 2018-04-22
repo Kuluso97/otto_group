@@ -4,6 +4,7 @@ from keras.optimizers import SGD
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.utils import to_categorical
+from keras import regularizers
 
 class NN(BaseClassifier):
 
