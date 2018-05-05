@@ -2,10 +2,14 @@
 
 Implementation of our ensemble method
 
+The first level models are contained in the model directory.
+
+Final ensemble script is ensemble.py
+
 ## Prerequisites
 <p>
 	You need to have Python 3.5/3.6 installed on your computer.
-	The run the script, you first need to install all the dependencies, we strongly encourage you to use virtualenv
+	To run the script, you first need to install all the dependencies, we strongly encourage you to use virtualenv.
 </p>
 
 In your console or terminal, type:
