@@ -119,7 +119,7 @@ def stacking_models_CV_train(models, X, y, X_submission, n_classes, n_folds=5):
 
         y_submission_pred[:, :, i] = y_submission_pred_model_i.mean(axis=2)
 
-    return y_submission_pred  
+    return y_submission_pred
 
 
 def create_2_layer_keras_model(input_dim, output_dim):
